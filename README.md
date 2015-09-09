@@ -11,6 +11,8 @@ It provides two use cases:
 
 That's it!
 
+The web service repo is [remind-backend](https://github.com/objarni/remind-backend).
+
 Tech
 ----
 

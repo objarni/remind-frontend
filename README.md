@@ -1,5 +1,5 @@
 ReMind - minimalistic Collect+Process system
-============================================
+===============================================
 
 ReMind is a minimalistic partial Getting Things Done (GTD) system
 that focuses on the Collect and Process part of GTD.

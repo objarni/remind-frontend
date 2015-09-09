@@ -16,7 +16,8 @@ The web service repo is [remind-backend](https://github.com/objarni/remind-backe
 Tech
 ----
 
-ReMind UI uses HTML and JavaScript libraries Angular to implement web service
+ReMind UI uses HTML and JavaScript with [Angular](https://angularjs.org/) to impleent web service
 and data updates.
 
-Response design is based on Skeleton.
+The response CSS design is based on [Skeleton](http://getskeleton.com/).
+

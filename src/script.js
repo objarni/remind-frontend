@@ -2,9 +2,10 @@ console.log('hej2');
 
 processController = function($scope, $http) {
 
-    var success = function(jsonObject) {
+    var success = function(response) {
     	console.log('success');
-    	console.log(jsonObject);
+    	console.log(response.data);
+    	jsonObject = angular.fromJson(response.data);
     	$scope.message = jsonObject['msg'];
     }
 
@@ -13,7 +14,7 @@ processController = function($scope, $http) {
     	$scope.message = 'fel';
     }
 
-	$http.jsonp("https://remind-gtd-micro-app.herokuapp.com?callback=JSON_CALLBACK")
+	$http.get("http://localhost:5000")
 		 .then(success, error);
 
 	var notes = [

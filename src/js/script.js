@@ -1,11 +1,11 @@
-console.log('hej2');
-
 processController = function($scope, $http) {
 
-    var success = function(jsonObject) {
-    	console.log('success');
-    	console.log(jsonObject);
-    	$scope.message = jsonObject['msg'];
+    var success = function(response) {
+    	console.log(response.data);
+    	jsonObject = angular.fromJson(response.data);
+    	console.log('json=' + response.data);
+    	$scope.message = jsonObject.msg;
+    	$scope.notes = jsonObject.notes;
     }
 
     var error = function(reason) {
@@ -13,7 +13,7 @@ processController = function($scope, $http) {
     	$scope.message = 'fel';
     }
 
-	$http.jsonp("https://remind-gtd-micro-app.herokuapp.com?callback=JSON_CALLBACK")
+	$http.get(ENDPOINT_URL + 'list')
 		 .then(success, error);
 
 	var notes = [

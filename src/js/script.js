@@ -4,7 +4,6 @@ processController = function($scope, $http) {
     	console.log(response.data);
     	jsonObject = angular.fromJson(response.data);
     	console.log('json=' + response.data);
-    	$scope.message = jsonObject.msg;
     	$scope.notes = jsonObject.notes;
     }
 
@@ -16,19 +15,14 @@ processController = function($scope, $http) {
 	$http.get(ENDPOINT_URL + 'list')
 		 .then(success, error);
 
-	var notes = [
-		'Brännbara CD nästan slut',
-		'Blogga om bla bla bla',
-		'Glöm inte betala danskursen faktura i mail',
-	];
-
 	var removeTop = function() {
 		console.log('removeTop');
+		$http.get(ENDPOINT_URL + 'remove_top');
 		$scope.notes = $scope.notes.slice(1);
 	};
 
 	$scope.removeTop = removeTop;
-	$scope.notes = notes;
+	$scope.notes = [];
 }
 
 var app = angular.module("remindApp", []);

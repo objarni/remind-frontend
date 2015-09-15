@@ -43,16 +43,19 @@
     <div class="row">
       <div class="twelve columns" style="margin-top: 5%">
         <form ng-submit="collect(note)">
-          <textarea
-              rows="30"
-              class="u-full-width"
-              placeholder="Kom ihåg vad...?"
-              id="note"
-              name="note"
-              ng-model="note"></textarea>
-          <input class="u-full-width button-primary"
-                 value="Spara"
-                 type="submit">
+          <p>&nbsp;{{message}}</p>
+          <fieldset ng-disabled="isSaving">
+            <textarea
+                rows="30"
+                class="u-full-width"
+                placeholder="Kom ihåg vad...?"
+                id="note"
+                name="note"
+                ng-model="note"></textarea>
+            <input class="u-full-width button-primary"
+                   value="Spara"
+                   type="submit">
+          </fieldset>
         </form>
       </div>
     </div>

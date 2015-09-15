@@ -32,8 +32,15 @@ collectController = function($scope, $http) {
 
 	var collect = function($note) {
 		console.log('collect');
-		$http.post(ENDPOINT_URL + 'add',
-		           { note: $note} );
+        $scope.state = 'saving';
+		$http({
+		      url: ENDPOINT_URL + 'add',
+		      method: "POST",
+		      headers: { 'Content-Type': 'application/json' },
+		      data: JSON.stringify({note:$note})
+		    }).success(function(data) {
+		      console.log(data)
+		    });
 	}
 
 	$scope.collect = collect;

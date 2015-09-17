@@ -32,23 +32,54 @@
 
   <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link rel="icon" type="image/png" href="images/favicon.png">
+  <link rel="icon" type="image/png" href="images/favicon2.png">
 
 </head>
-<body>
+<body ng-app='remindApp'>
 
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <div class="container">
+  <div class="container" ng-controller="indexController">
   	<div class="row">
   		<h1>Re:Mind</h1>
-  		<div class="twelve columns" style="margin-top: 5%">
-  			<a href="collect.html" class="six columns button">
-  				Collect
-  			</a>
-  			<a href="process.html" class="six columns button">
-  				Process
-  			</a>
+  		<form name="form" >
+  			<div class="row">
+  				<div class="twelve columns">
+  					<label for="email">Epost</label>
+  					<input
+  					class="u-full-width"
+  					name="email"
+  					id="email"
+  					type="email"
+  					ng-model="email"
+  					placeholder="test@mailbox.com"
+  					required>
+  				</div>
+  				<p ng-hide="form.email.$valid">
+  					Ange din epostadress
+  				</p>
+  				<p ng-show="form.email.$valid">
+  					Klicka på en knapp för att fortsätta
+  				</p>
+  			</div>
+  			<div class="row">
+  				<div class="twelve columns" style="margin-top: 5%">
+  					<input
+  					    type="submit"
+  					    ng-enabled="form.email.$valid"
+  					    href="process.html"
+  					    class="six columns button"
+  					    value="Ny"
+  					    ng-click="form.email.$valid && goCollect()">
+  					<input
+  					    type="submit"
+  					    ng-enabled="form.email.$valid"
+  					    href="process.html"
+  					    class="six columns button"
+  					    value="Visa"
+  					    ng-click="form.email.$valid && goProcess()">
+  				</div>
+  			</form>
   		</div>
   	</div>
   </div>

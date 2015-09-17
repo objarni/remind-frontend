@@ -32,7 +32,7 @@
 
   <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link rel="icon" type="image/png" href="images/favicon.png">
+  <link rel="icon" type="image/png" href="images/favicon2.png">
 
 </head>
 <body onLoad="document.getElementById('note').focus()">
@@ -42,7 +42,7 @@
   <div class="container" ng-app='remindApp' ng-controller="collectController">
     <div class="row">
       <div class="twelve columns" style="margin-top: 5%">
-        <form ng-submit="collect(note)">
+        <form ng-submit="collect(note, email)">
           <p>&nbsp;{{message}}</p>
           <fieldset ng-disabled="isSaving">
             <textarea
@@ -55,6 +55,7 @@
             <input class="u-full-width button-primary"
                    value="Spara"
                    type="submit">
+            <em>{{email}}</em>
           </fieldset>
         </form>
       </div>

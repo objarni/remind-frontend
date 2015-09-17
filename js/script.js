@@ -1,4 +1,4 @@
-processController = function($scope, $http) {
+var processController = function($scope, $http) {
 
 	var success = function(response) {
 		console.log(response.data);
@@ -28,10 +28,11 @@ processController = function($scope, $http) {
 	$scope.booting = true;
 };
 
-collectController = function($scope, $http, $timeout) {
+var collectController = function($scope, $http, $timeout) {
 
-	var collect = function($note) {
+	var collect = function(note, email) {
 		console.log('collect');
+		console.log('email ' + email);
 		$scope.isSaving = true;
 		$scope.message = 'Sparar...';
 		console.log($scope.isSaving);
@@ -39,7 +40,7 @@ collectController = function($scope, $http, $timeout) {
 			url: ENDPOINT_URL + 'add',
 			method: "POST",
 			headers: { 'Content-Type': 'application/json' },
-			data: JSON.stringify({note:$note})
+			data: JSON.stringify({note: note, email: email})
 		}).success(function(data) {
 			$scope.isSaving = false;
 			$scope.message = 'Sparat. :)';
@@ -55,8 +56,28 @@ collectController = function($scope, $http, $timeout) {
 	$scope.note = '';
 	$scope.isSaving = false;
 	$scope.message= '';
+	$scope.email = window.location.search.substring(1);
 };
+
+var indexController = function($scope, $window) {
+
+    var goCollect = function() {
+    	console.log('goCollect');
+        $window.location.href = "collect.html";
+    };
+
+    var goProcess = function() {
+    	console.log('goProcess');
+        $window.location.href = "process.html";
+    };
+
+
+	$scope.goCollect = goCollect;
+	$scope.goProcess = goProcess;
+};
+
 
 var app = angular.module("remindApp", []);
 app.controller("processController", processController);
 app.controller("collectController", collectController);
+app.controller("indexController", indexController);

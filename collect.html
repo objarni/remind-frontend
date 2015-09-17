@@ -36,12 +36,21 @@
 
 </head>
 <body onLoad="document.getElementById('note').focus()">
-
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <div class="container" ng-app='remindApp' ng-controller="collectController">
+  <div class="container" style="margin-top: 5%" ng-app='remindApp' ng-controller="collectController">
+
     <div class="row">
-      <div class="twelve columns" style="margin-top: 5%">
+      <div class="eight columns">
+        &nbsp;
+      </div>
+      <div class="four columns">
+        <em>{{email}} (<a href="./">byt</a>)</em>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="twelve columns">
         <form ng-submit="collect(note, email)">
           <p>&nbsp;{{message}}</p>
           <fieldset ng-disabled="isSaving">
@@ -55,11 +64,11 @@
             <input class="u-full-width button-primary"
                    value="Spara"
                    type="submit">
-            <em>{{email}}</em>
           </fieldset>
         </form>
       </div>
     </div>
+
   </div>
 
 <!-- End Document

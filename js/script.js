@@ -14,18 +14,24 @@ var processController = function($scope, $http) {
 		$scope.booting = false;
 	}
 
-	$http.get(ENDPOINT_URL + 'list')
-	.then(success, error);
+	var email = window.location.search.substring(1);
+
+
+	var listCall = ENDPOINT_URL + 'list/' + email
+	console.log(listCall);
+
+	$http.get(listCall).then(success, error);
 
 	var removeTop = function() {
 		console.log('removeTop');
-		$http.get(ENDPOINT_URL + 'remove_top');
+		$http.get(ENDPOINT_URL + 'remove_top/' + email);
 		$scope.notes = $scope.notes.slice(1);
 	};
 
 	$scope.removeTop = removeTop;
 	$scope.notes = [];
 	$scope.booting = true;
+	$scope.email = email;
 };
 
 var collectController = function($scope, $http, $timeout) {
@@ -59,16 +65,17 @@ var collectController = function($scope, $http, $timeout) {
 	$scope.email = window.location.search.substring(1);
 };
 
+
 var indexController = function($scope, $window) {
 
     var goCollect = function() {
     	console.log('goCollect');
-        $window.location.href = "collect.html";
+        $window.location.href = "collect.html?" + $scope.email;
     };
 
     var goProcess = function() {
     	console.log('goProcess');
-        $window.location.href = "process.html";
+        $window.location.href = "process.html?" + $scope.email;
     };
 
 

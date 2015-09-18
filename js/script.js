@@ -1,20 +1,41 @@
+
+
 // Backend API helpers
 
-var remoteTop = function($http, email) {
-	return $http.get(ENDPOINT_URL + 'remove_top/' + email);
-}
-
-var addToBackend = function($http, note, email) {
+var addAPI = function($http, note, email) {
 	return $http({
-			url: ENDPOINT_URL + 'add',
 			method: "POST",
-			headers: { 'Content-Type': 'application/json' },
-			data: JSON.stringify({note: note, email: email})
+			url: ENDPOINT_URL + 'add',
+			data: JSON.stringify({note: note, email: email}),
+			headers: { 'Content-Type': 'application/json' }
 	});
 }
 
+var listAPI = function($http, email) {
+	return $http.get(ENDPOINT_URL + 'list/' + email);
+};
 
-var processController = function($scope, $http) {
+var removeTopAPI = function($http, email) {
+	return $http.get(ENDPOINT_URL + 'remove_top/' + email);
+};
+
+
+// Window object helpers
+
+var emailFromWindow = function(window) {
+	return window.location.search.substring(1);
+}
+
+var surfTo = function(window, url) {
+    window.location.href = url;
+}
+
+
+// AngularJS controllers
+
+var processController = function($scope, $http, $window) {
+
+	var email = emailFromWindow($window);
 
 	var success = function(response) {
 		console.log(response.data);
@@ -30,19 +51,13 @@ var processController = function($scope, $http) {
 		$scope.booting = false;
 	}
 
-	var email = window.location.search.substring(1);
-
-
-	var listCall = ENDPOINT_URL + 'list/' + email
-	console.log(listCall);
-
-	$http.get(listCall).then(success, error);
-
 	var removeTop = function() {
 		console.log('removeTop');
-		removeTop($http, email);
+		removeTopAPI($http, email);
 		$scope.notes = $scope.notes.slice(1);
 	};
+
+	listAPI($http, email).then(success, error);
 
 	$scope.removeTop = removeTop;
 	$scope.notes = [];
@@ -50,7 +65,9 @@ var processController = function($scope, $http) {
 	$scope.email = email;
 };
 
-var collectController = function($scope, $http, $timeout) {
+var collectController = function($scope, $http, $timeout, $window) {
+
+	var email = emailFromWindow($window);
 
 	var collect = function(note, email) {
 		console.log('collect');
@@ -58,7 +75,7 @@ var collectController = function($scope, $http, $timeout) {
 		$scope.isSaving = true;
 		$scope.message = 'Sparar...';
 		console.log($scope.isSaving);
-		addToBackend($http, note, email)
+		addAPI($http, note, email)
 		.success(function(data) {
 			$scope.isSaving = false;
 			$scope.message = 'Sparat. :)';
@@ -70,22 +87,19 @@ var collectController = function($scope, $http, $timeout) {
 		});
 	};
 
-	var email = window.location.search.substring(1);
-
 	// Tickle backend when page is loaded
 	// to prevent slow save operation
 	// (Heroku dynos sleep after 30 minutes)
 	// Hack: add empty string, then remove it!
 	// Will not make any difference for users'
 	// real data as order is FIFO (stack).
-	addToBackend($http, '', email)
+	addAPI($http, '', email)
 	.success(function(data) {
-		remoteTop($http, email)
+		removeTopAPI($http, email)
 		.success(function(data) {
 			$scope.backendAwake = true;
 		});
 	});
-
 
 	$scope.collect = collect;
 	$scope.note = '';
@@ -95,24 +109,24 @@ var collectController = function($scope, $http, $timeout) {
 	$scope.backendAwake = false;
 };
 
-
 var indexController = function($scope, $window) {
 
     var goCollect = function() {
     	console.log('goCollect');
-        $window.location.href = "collect.html?" + $scope.email;
+    	surfTo($window, "collect.html?" + $scope.email);
     };
 
     var goProcess = function() {
     	console.log('goProcess');
-        $window.location.href = "process.html?" + $scope.email;
+    	surfTo($window, "process.html?" + $scope.email);
     };
-
 
 	$scope.goCollect = goCollect;
 	$scope.goProcess = goProcess;
 };
 
+
+// AngularJS app
 
 var app = angular.module("remindApp", []);
 app.controller("processController", processController);

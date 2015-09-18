@@ -1,3 +1,19 @@
+// Backend API helpers
+
+var remoteTop = function($http, email) {
+	return $http.get(ENDPOINT_URL + 'remove_top/' + email);
+}
+
+var addToBackend = function($http, note, email) {
+	return $http({
+			url: ENDPOINT_URL + 'add',
+			method: "POST",
+			headers: { 'Content-Type': 'application/json' },
+			data: JSON.stringify({note: note, email: email})
+	});
+}
+
+
 var processController = function($scope, $http) {
 
 	var success = function(response) {
@@ -24,7 +40,7 @@ var processController = function($scope, $http) {
 
 	var removeTop = function() {
 		console.log('removeTop');
-		$http.get(ENDPOINT_URL + 'remove_top/' + email);
+		removeTop($http, email);
 		$scope.notes = $scope.notes.slice(1);
 	};
 
@@ -42,12 +58,8 @@ var collectController = function($scope, $http, $timeout) {
 		$scope.isSaving = true;
 		$scope.message = 'Sparar...';
 		console.log($scope.isSaving);
-		$http({
-			url: ENDPOINT_URL + 'add',
-			method: "POST",
-			headers: { 'Content-Type': 'application/json' },
-			data: JSON.stringify({note: note, email: email})
-		}).success(function(data) {
+		addToBackend($http, note, email)
+		.success(function(data) {
 			$scope.isSaving = false;
 			$scope.message = 'Sparat. :)';
 			$scope.note = '';
@@ -56,13 +68,31 @@ var collectController = function($scope, $http, $timeout) {
 	        }, 2000);
 	        console.log(data)
 		});
-	}
+	};
+
+	var email = window.location.search.substring(1);
+
+	// Tickle backend when page is loaded
+	// to prevent slow save operation
+	// (Heroku dynos sleep after 30 minutes)
+	// Hack: add empty string, then remove it!
+	// Will not make any difference for users'
+	// real data as order is FIFO (stack).
+	addToBackend($http, '', email)
+	.success(function(data) {
+		remoteTop($http, email)
+		.success(function(data) {
+			$scope.backendAwake = true;
+		});
+	});
+
 
 	$scope.collect = collect;
 	$scope.note = '';
 	$scope.isSaving = false;
 	$scope.message= '';
-	$scope.email = window.location.search.substring(1);
+	$scope.email = email;
+	$scope.backendAwake = false;
 };
 
 

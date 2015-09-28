@@ -45,14 +45,14 @@
         &nbsp;
       </div>
       <div class="four columns">
-        <em>{{email}} (<a href="./">byt</a>)</em>
+        <em>{{email}} (<a id="logout" href="./">byt</a>)</em>
       </div>
     </div>
 
     <div class="row">
       <div class="twelve columns">
         <form ng-submit="collect(note, email)">
-          <p>&nbsp;{{message}}</p>
+          <p id="message">&nbsp;{{message}}</p>
           <fieldset ng-disabled="isSaving">
             <textarea
                 rows="30"
@@ -64,6 +64,7 @@
             <input class="u-full-width button-primary"
                    ng-show="backendAwake"
                    value="Spara"
+                   name="save"
                    type="submit">
           </fieldset>
         </form>

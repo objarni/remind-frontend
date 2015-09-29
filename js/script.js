@@ -35,6 +35,8 @@ var surfTo = function(window, url) {
 
 var processController = function($scope, $http, $window) {
 
+	Mousetrap.bind('del', function() { $scope.removeTop(); });
+
 	var email = emailFromWindow($window);
 
 	var success = function(response) {

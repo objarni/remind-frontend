@@ -5,7 +5,7 @@
   <!-- Basic Page Needs
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <meta charset="utf-8">
-  <title>Collect</title>
+  <title>{{ title }}</title>
   <meta name="description" content="">
   <meta name="author" content="">
 
@@ -40,41 +40,7 @@
 </head>
 <body ng-app='remindApp'>
 
-<div class="container" style="margin-top: 5%" ng-controller="collectController">
-
-  <div class="row">
-    <div class="eight columns">
-      &nbsp;
-    </div>
-    <div class="four columns">
-      <em>{{email}} (<a id="logout" href="./">byt</a>)</em>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="twelve columns">
-      <form ng-submit="collect(note, email)">
-        <p id="message">&nbsp;{{message}}</p>
-        <fieldset ng-disabled="isSaving">
-          <textarea
-          rows="30"
-          class="u-full-width"
-          placeholder="Kom ihåg vad...?"
-          id="note"
-          name="note"
-          ng-model="note"></textarea>
-          <input class="u-full-width button-primary"
-          ng-show="backendAwake"
-          value="Spara"
-          name="save"
-          type="submit">
-        </fieldset>
-      </form>
-    </div>
-  </div>
-
-</div>
-
+{{ body }}
 
 </body>
 </html>

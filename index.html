@@ -20,6 +20,8 @@
     src="https://code.angularjs.org/1.3.17/angular.js"></script>
   <script src="js/config.js?rev=5"></script>
   <script src="js/script.js?rev=5"></script>
+  <script src="https://craig.global.ssl.fastly.net/js/mousetrap/mousetrap.min.js?71631">
+  </script>
 
   <!-- FONT
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -38,56 +40,54 @@
 </head>
 <body ng-app='remindApp'>
 
-  <!-- Primary Page Layout
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <div class="container" ng-controller="indexController">
-  	<div class="row">
-  		<h1>Re:Mind</h1>
-  		<form name="form" >
-  			<div class="row">
-  				<div class="twelve columns">
-  					<label for="email">Epost</label>
-  					<input
-  					class="u-full-width"
-  					name="email"
-  					id="email"
-  					type="email"
-  					ng-model="email"
-  					placeholder="test@mailbox.com"
-  					required>
-  				</div>
-  				<p ng-hide="form.email.$valid">
-  					Ange din epostadress
-  				</p>
-  				<p ng-show="form.email.$valid">
-  					Klicka på en knapp för att fortsätta
-  				</p>
-  			</div>
-  			<div class="row">
-  				<div class="twelve columns" style="margin-top: 5%">
-  					<input
-  					    type="submit"
-  					    ng-enabled="form.email.$valid"
-  					    href="process.html"
-  					    class="six columns button-primary"
-  					    value="Ny"
-                name="collect"
-  					    ng-click="form.email.$valid && goCollect()">
-  					<input
-  					    type="submit"
-  					    ng-enabled="form.email.$valid"
-  					    href="process.html"
-  					    class="six columns button-primary"
-  					    value="Visa"
-                name="process"
-  					    ng-click="form.email.$valid && goProcess()">
-  				</div>
-  			</form>
-  		</div>
-  	</div>
-  </div>
+<div class="container" ng-controller="indexController">
+	<div class="row">
+		<h1>Re:Mind</h1>
+		<form name="form" >
+			<div class="row">
+				<div class="twelve columns">
+					<label for="email">Epost</label>
+					<input
+					class="u-full-width"
+					name="email"
+					id="email"
+					type="email"
+					ng-model="email"
+					placeholder="test@mailbox.com"
+					required>
+				</div>
+				<p ng-hide="form.email.$valid">
+					Ange din epostadress
+				</p>
+				<p ng-show="form.email.$valid">
+					Klicka på en knapp för att fortsätta
+				</p>
+			</div>
+			<div class="row">
+				<div class="twelve columns" style="margin-top: 5%">
+					<input
+         type="submit"
+         ng-enabled="form.email.$valid"
+         href="process.html"
+         class="six columns button-primary"
+         value="Ny"
+         name="collect"
+         ng-click="form.email.$valid && goCollect()">
+         <input
+         type="submit"
+         ng-enabled="form.email.$valid"
+         href="process.html"
+         class="six columns button-primary"
+         value="Visa"
+         name="process"
+         ng-click="form.email.$valid && goProcess()">
+       </div>
+     </div>
+   </form>
+ </div>
+</div>
 
-<!-- End Document
-	–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+
+
 </body>
 </html>

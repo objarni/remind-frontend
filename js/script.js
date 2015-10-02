@@ -1,8 +1,13 @@
 
+// localStorage
+
+LS = window.localStorage;
+
 
 // Backend API helpers
 
 var addAPI = function($http, note, email) {
+	console.log('addAPI');
 	return $http({
 			method: "POST",
 			url: ENDPOINT_URL + 'add',
@@ -12,10 +17,12 @@ var addAPI = function($http, note, email) {
 }
 
 var listAPI = function($http, email) {
+	console.log('listAPI');
 	return $http.get(ENDPOINT_URL + 'list/' + email);
 };
 
 var removeTopAPI = function($http, email) {
+	console.log('removeTopAPI');
 	return $http.get(ENDPOINT_URL + 'remove_top/' + email);
 };
 
@@ -23,7 +30,7 @@ var removeTopAPI = function($http, email) {
 // Window object helpers
 
 var emailFromWindow = function(window) {
-	return window.location.search.substring(1);
+	return LS.email;
 }
 
 var surfTo = function(window, url) {
@@ -95,13 +102,27 @@ var collectController = function($scope, $http, $timeout, $window) {
 	// Hack: add empty string, then remove it!
 	// Will not make any difference for users'
 	// real data as order is FIFO (stack).
-	addAPI($http, '', email)
-	.success(function(data) {
-		removeTopAPI($http, email)
-		.success(function(data) {
-			$scope.backendAwake = true;
-		});
-	});
+
+	var onError = function(response) {
+		console.log('onError');
+		console.log(response);
+		$scope.message = "Error: " + response.statusText;
+	};
+
+	var onSuccessfullRemoveTop = function(response) {
+		console.log('tickle/remove_top OK');
+		console.log(response);
+		$scope.backendAwake = true;
+	};
+
+	var onSuccessfullAdd = function(response) {
+		console.log('tickle/add OK');
+		console.log(response);
+		removeTopAPI($http, email).then(onSuccessfullRemoveTop, onError);
+	};
+
+	$scope.message = 'Kontaktar back-end...';
+	addAPI($http, '', email).then(onSuccessfullAdd, onError);
 
 	$scope.collect = collect;
 	$scope.note = '';
@@ -113,18 +134,25 @@ var collectController = function($scope, $http, $timeout, $window) {
 
 var indexController = function($scope, $window) {
 
+	var email = emailFromWindow($window);
+
     var goCollect = function() {
     	console.log('goCollect');
-    	surfTo($window, "collect.html?" + $scope.email);
+    	LS.email = $scope.email;
+    	surfTo($window, "collect.html");
     };
 
     var goProcess = function() {
     	console.log('goProcess');
-    	surfTo($window, "process.html?" + $scope.email);
+    	LS.email = $scope.email;
+    	surfTo($window, "process.html");
     };
 
 	$scope.goCollect = goCollect;
 	$scope.goProcess = goProcess;
+
+	if ( email )
+		$scope.email = email;
 };
 
 

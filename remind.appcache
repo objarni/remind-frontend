@@ -2,7 +2,6 @@ CACHE MANIFEST
 # version 30
 
 CACHE:
-offline.html
 collect.html
 index.html
 process.html

@@ -1,10 +1,18 @@
 # coding: utf-8
 
 # Standard
+import os
+import os.path
 import codecs
 
 # Third party
 from jinja2 import Template
+
+FRONTEND_PATH = os.environ['REMIND_FRONTEND_PATH']
+
+
+def tpath(tname):
+    return os.path.join(FRONTEND_PATH, 'templates', tname)
 
 
 def readfile(fname):
@@ -17,16 +25,23 @@ def writefile(fname, content):
         return f.write(content)
 
 
-def generate(title, body):
-    template = readfile('templates/template.html')
-    t = Template(template)
-    return t.render(title=title, body=body)
+class Generator(object):
+    def __init__(self):
+        self.t = Template(readfile(tpath('template.html')))
+
+    def generate(self, title, body):
+        print "Generating %s." % title
+        return self.t.render(title=title, body=body)
 
 if __name__ == '__main__':
+    g = Generator()
     for (title, fname) in [
             (u'Re:Mind', 'index.body.html'),
             (u'Collect', 'collect.body.html'),
             (u'Process', 'process.body.html')]:
-        body = readfile('templates/' + fname)
-        html = generate(title=title, body=body)
-        writefile(fname.replace('.body', ''), html)
+        body = readfile(tpath(fname))
+        html = g.generate(title=title, body=body)
+
+        outname = fname.replace('.body', '')
+        outpath = os.path.join(FRONTEND_PATH, outname)
+        writefile(outpath, html)

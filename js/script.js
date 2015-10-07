@@ -91,6 +91,8 @@ var collectController = function($scope, $http, $timeout, $window) {
 			$scope.note = '';
 	        $timeout(function(){
 	            $scope.message = '';
+	            $scope.saved = true;
+	            console.log('Trying to hide the lot.');
 	        }, 2000);
 	        console.log(data)
 		});
@@ -130,6 +132,7 @@ var collectController = function($scope, $http, $timeout, $window) {
 	$scope.message= '';
 	$scope.email = email;
 	$scope.backendAwake = false;
+	$scope.saved = false;
 };
 
 var indexController = function($scope, $window) {

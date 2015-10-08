@@ -1,65 +1,56 @@
 
+
 <form name="form" ng-submit="createAccount(email, password)">
 
-	<div class="container" ng-controller="signupController">
-
-		<div class="row">
-			<div class="twelve columns">
-				<h1>Skapa konto</h1>
-			</div>
+	<div class="row">
+		<div class="twelve columns">
+			<p id="message">&nbsp;{{message}}</p>
 		</div>
+	</div>
 
-		<div class="row">
-			<div class="twelve columns">
-				<p id="message">&nbsp;{{message}}</p>
-			</div>
+	<div class="row">
+		<div class="six columns">
+			<label for="email">Epost</label>
+			<input
+			class="u-full-width"
+			name="email"
+			id="email"
+			type="email"
+			ng-model="email"
+			placeholder="test@mailbox.com"
+			required>
 		</div>
-
-		<div class="row">
-			<div class="six columns">
-				<label for="email">Epost</label>
-				<input
-				class="u-full-width"
-				name="email"
-				id="email"
-				type="email"
-				ng-model="email"
-				placeholder="test@mailbox.com"
-				required>
-			</div>
-			<div class="six columns">
-				<label for="email">Lösenord</label>
-				<input
-				class="u-full-width"
-				name="password"
-				id="password"
-				type="password"
-				ng-model="password"
-				placeholder=""
-				required>
-			</div>
+		<div class="six columns">
+			<label for="email">Lösenord</label>
+			<input
+			class="u-full-width"
+			name="password"
+			id="password"
+			type="password"
+			ng-model="password"
+			placeholder=""
+			required>
 		</div>
+	</div>
 
-		<div class="row">
-			<div class="twelve columns">
+	<div class="row">
 
-			</div>
+		<div class="twelve columns">
+			<input
+			type="submit"
+			ng-enabled="form.email.$valid"
+			href="process.html"
+			class="u-full-width button-primary"
+			value="Skapa konto"
+			name="signup"
+			ng-click="form.email.$valid && createAccount()">
 		</div>
+	</div>
 
-		<div class="row">
-
-			<div class="twelve columns" style="margin-top: 5%">
-				<input
-				type="submit"
-				ng-enabled="form.email.$valid"
-				href="process.html"
-				class="u-full-width button-primary"
-				value="Skapa konto"
-				name="signup"
-				ng-click="form.email.$valid && createAccount()">
-			</div>
+	<div class="row">
+		<div class="twelve columns">
+			<a href="/">Avbryt</a>
 		</div>
-
 	</div>
 
 </form>

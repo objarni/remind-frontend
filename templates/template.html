@@ -40,16 +40,25 @@
   style="margin-top: 5%"
   ng-controller="{{ controller }}">
 
-  <div class="row">
-    <div class="u-fill-width"
-      <img src="images/remind_splash.png">
+    <div class="row">
+      <div class="three columns">
+        <a href="/">
+          <img src="images/remind_splash.png">
+        </a>
+      </div>
+      <div class="six columns">
+        <h1 style="text-align: center">{{ title }}</h1>
+      </div>
+      <div class="three columns">
+        <h4>login/out</h4>
+      </div>
     </div>
+
+    <hr>
+
+    {{ body }}
+
   </div>
-
-{{ body }}
-
-
-</div>
 
 </body>
 </html>

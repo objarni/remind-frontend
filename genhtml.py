@@ -4,6 +4,7 @@
 import os
 import os.path
 import codecs
+import datetime
 
 # Third party
 from jinja2 import Template
@@ -26,23 +27,33 @@ def writefile(fname, content):
 
 
 class Generator(object):
-    def __init__(self):
-        self.t = Template(readfile(tpath('template.html')))
+    def __init__(self, tname):
+        self.tname = tname
+        self.t = Template(readfile(tpath(tname)))
 
-    def generate(self, title, body, controller):
-        print "Generating %s." % title
-        return self.t.render(title=title,
-                             body=body,
-                             controller=controller)
+    def generate(self, what, **dict):
+        print "Generating %s from %s." % (what, self.tname)
+        return self.t.render(dict)
 
 if __name__ == '__main__':
-    g = Generator()
+
+    # remind.appcache
+    g = Generator('remind.appcache')
+    timestamp = datetime.datetime.now().strftime('%Y-%m-%d %k:%M:%S')
+    result = g.generate('remind.appcache', timestamp=timestamp)
+    outpath = os.path.join(FRONTEND_PATH, 'remind.appcache')
+    writefile(outpath, result)
+
+    # html files
+    g = Generator('template.html')
     for (title, fname, ngcontroller) in [
             (u'Re:Mind', 'index.body.html', 'indexController'),
+            (u'Skapa konto', 'signup.body.html', 'signupController'),
             (u'Collect', 'collect.body.html', 'collectController'),
             (u'Process', 'process.body.html', 'processController')]:
         body = readfile(tpath(fname))
-        html = g.generate(title=title,
+        html = g.generate(fname,
+                          title=title,
                           body=body,
                           controller=ngcontroller)
 

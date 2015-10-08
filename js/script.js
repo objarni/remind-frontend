@@ -159,9 +159,24 @@ var indexController = function($scope, $window) {
 };
 
 
+var signupController = function($scope, $window) {
+
+    var createAccount = function(email, password) {
+    	console.log('createAccount');
+    	$scope.message = "Konto skapat";
+    	surfTo($window, '/');
+    };
+
+	$scope.createAccount = createAccount;
+	$scope.message = '';
+};
+
+
 // AngularJS app
 
 var app = angular.module("remindApp", []);
 app.controller("processController", processController);
 app.controller("collectController", collectController);
 app.controller("indexController", indexController);
+app.controller("signupController", signupController);
+

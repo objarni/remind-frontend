@@ -5,7 +5,7 @@
   <!-- Basic Page Needs
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <meta charset="utf-8">
-  <title>Re:Mind</title>
+  <title>Skapa konto</title>
   <meta name="description" content="">
   <meta name="author" content="">
 
@@ -38,7 +38,7 @@
 
   <div class="container"
   style="margin-top: 5%"
-  ng-controller="indexController">
+  ng-controller="signupController">
 
   <div class="row">
     <div class="u-fill-width"
@@ -47,63 +47,70 @@
   </div>
 
 
-<div class="container" ng-controller="indexController">
-	<div class="row">
+<form name="form" ng-submit="createAccount(email, password)">
 
-		<h1>Re:Mind</h1>
+	<div class="container" ng-controller="signupController">
 
 		<div class="row">
-			<div class="eight columns">
-				&nbsp;
-			</div>
-			<div class="four columns">
-				<a id="signup" href="signup.html">Sign Up</a>
+			<div class="twelve columns">
+				<h1>Skapa konto</h1>
 			</div>
 		</div>
 
-		<form name="form" >
-			<div class="row">
-				<div class="twelve columns">
-					<label for="email">Epost</label>
-					<input
-					class="u-full-width"
-					name="email"
-					id="email"
-					type="email"
-					ng-model="email"
-					placeholder="test@mailbox.com"
-					required>
-				</div>
-				<p ng-hide="form.email.$valid">
-					Ange din epostadress
-				</p>
-				<p ng-show="form.email.$valid">
-					Klicka på en knapp för att fortsätta
-				</p>
+		<div class="row">
+			<div class="twelve columns">
+				<p id="message">&nbsp;{{message}}</p>
 			</div>
-			<div class="row">
-				<div class="twelve columns" style="margin-top: 5%">
-					<input
-					type="submit"
-					ng-enabled="form.email.$valid"
-					href="process.html"
-					class="six columns button-primary"
-					value="Ny"
-					name="collect"
-					ng-click="form.email.$valid && goCollect()">
-					<input
-					type="submit"
-					ng-enabled="form.email.$valid"
-					href="process.html"
-					class="six columns button-primary"
-					value="Visa"
-					name="process"
-					ng-click="form.email.$valid && goProcess()">
-				</div>
+		</div>
+
+		<div class="row">
+			<div class="six columns">
+				<label for="email">Epost</label>
+				<input
+				class="u-full-width"
+				name="email"
+				id="email"
+				type="email"
+				ng-model="email"
+				placeholder="test@mailbox.com"
+				required>
 			</div>
-		</form>
+			<div class="six columns">
+				<label for="email">Lösenord</label>
+				<input
+				class="u-full-width"
+				name="password"
+				id="password"
+				type="password"
+				ng-model="password"
+				placeholder=""
+				required>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="twelve columns">
+
+			</div>
+		</div>
+
+		<div class="row">
+
+			<div class="twelve columns" style="margin-top: 5%">
+				<input
+				type="submit"
+				ng-enabled="form.email.$valid"
+				href="process.html"
+				class="u-full-width button-primary"
+				value="Skapa konto"
+				name="signup"
+				ng-click="form.email.$valid && createAccount()">
+			</div>
+		</div>
+
 	</div>
 
+</form>
 
 
 

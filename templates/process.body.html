@@ -1,39 +1,41 @@
-<div class="container" style="margin-top: 5%" ng-controller="processController">
+
+
+
+
+
+<div class="row">
+  <div class="eight columns">
+    &nbsp;
+  </div>
+  <div class="four columns">
+    <em>{{email}} (<a href="./">byt</a>)</em>
+  </div>
+</div>
+
+<div class="row" ng-show="notes.length == 0 && booting">
+  <h1 class="centered"><em>Laddar kom-ihåg-lappar...</em></h1>
+</div>
+
+<div class="row" ng-show="notes.length == 0 && !booting">
+  <h1 class="centered"><em>Inget att se här, move on!</em></h1>
+</div>
+
+<div ng-show="notes.length > 0">
 
   <div class="row">
-    <div class="eight columns">
-      &nbsp;
-    </div>
-    <div class="four columns">
-      <em>{{email}} (<a href="./">byt</a>)</em>
-    </div>
+    <h2 id="top" class="eight columns">{{ notes[0] }}</h2>
+    <form ng-submit="removeTop()">
+      <input
+      class="four columns button-primary"
+      value="Släng"
+      title="Ta bort översta texten (Del)"
+      name="remove_top"
+      type="submit">
+    </form>
   </div>
 
-  <div class="row" ng-show="notes.length == 0 && booting">
-    <h1 class="centered"><em>Laddar kom-ihåg-lappar...</em></h1>
+  <div class="row u-full-width" ng-repeat="note in notes.slice(1) track by $index">
+    <p>{{note}}</p>
   </div>
-
-  <div class="row" ng-show="notes.length == 0 && !booting">
-    <h1 class="centered"><em>Inget att se här, move on!</em></h1>
-  </div>
-
-  <div ng-show="notes.length > 0">
-
-    <div class="row">
-      <h2 id="top" class="eight columns">{{ notes[0] }}</h2>
-      <form ng-submit="removeTop()">
-        <input
-        class="four columns button-primary"
-        value="Släng"
-        title="Ta bort översta texten (Del)"
-        name="remove_top"
-        type="submit">
-      </form>
-    </div>
-
-    <div class="row u-full-width" ng-repeat="note in notes.slice(1) track by $index">
-      <p>{{note}}</p>
-    </div>
-  </div>
-
 </div>
+

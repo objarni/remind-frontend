@@ -29,18 +29,22 @@ class Generator(object):
     def __init__(self):
         self.t = Template(readfile(tpath('template.html')))
 
-    def generate(self, title, body):
+    def generate(self, title, body, controller):
         print "Generating %s." % title
-        return self.t.render(title=title, body=body)
+        return self.t.render(title=title,
+                             body=body,
+                             controller=controller)
 
 if __name__ == '__main__':
     g = Generator()
-    for (title, fname) in [
-            (u'Re:Mind', 'index.body.html'),
-            (u'Collect', 'collect.body.html'),
-            (u'Process', 'process.body.html')]:
+    for (title, fname, ngcontroller) in [
+            (u'Re:Mind', 'index.body.html', 'indexController'),
+            (u'Collect', 'collect.body.html', 'collectController'),
+            (u'Process', 'process.body.html', 'processController')]:
         body = readfile(tpath(fname))
-        html = g.generate(title=title, body=body)
+        html = g.generate(title=title,
+                          body=body,
+                          controller=ngcontroller)
 
         outname = fname.replace('.body', '')
         outpath = os.path.join(FRONTEND_PATH, outname)

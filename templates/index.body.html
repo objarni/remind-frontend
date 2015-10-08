@@ -1,6 +1,17 @@
 <div class="container" ng-controller="indexController">
 	<div class="row">
+
 		<h1>Re:Mind</h1>
+
+		<div class="row">
+			<div class="eight columns">
+				&nbsp;
+			</div>
+			<div class="four columns">
+				<a id="signup" href="signup.html">Sign Up</a>
+			</div>
+		</div>
+
 		<form name="form" >
 			<div class="row">
 				<div class="twelve columns">
@@ -24,24 +35,24 @@
 			<div class="row">
 				<div class="twelve columns" style="margin-top: 5%">
 					<input
-         type="submit"
-         ng-enabled="form.email.$valid"
-         href="process.html"
-         class="six columns button-primary"
-         value="Ny"
-         name="collect"
-         ng-click="form.email.$valid && goCollect()">
-         <input
-         type="submit"
-         ng-enabled="form.email.$valid"
-         href="process.html"
-         class="six columns button-primary"
-         value="Visa"
-         name="process"
-         ng-click="form.email.$valid && goProcess()">
-       </div>
-     </div>
-   </form>
- </div>
+					type="submit"
+					ng-enabled="form.email.$valid"
+					href="process.html"
+					class="six columns button-primary"
+					value="Ny"
+					name="collect"
+					ng-click="form.email.$valid && goCollect()">
+					<input
+					type="submit"
+					ng-enabled="form.email.$valid"
+					href="process.html"
+					class="six columns button-primary"
+					value="Visa"
+					name="process"
+					ng-click="form.email.$valid && goProcess()">
+				</div>
+			</div>
+		</form>
+	</div>
 </div>
 

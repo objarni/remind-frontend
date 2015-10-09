@@ -1,4 +1,4 @@
-<form ng-submit="createAccount(email, password)">
+<form ng-submit="login(email, password)">
 
 	<div class="row">
 		<div class="twelve columns">
@@ -39,15 +39,9 @@
 			ng-enabled="form.email.$valid"
 			href="process.html"
 			class="u-full-width button-primary"
-			value="Skapa konto"
-			name="signup"
+			value="Logga in"
+			name="login"
 			ng-enabled="form.email.$valid">
-		</div>
-	</div>
-
-	<div class="row">
-		<div class="twelve columns">
-			<a href="/">Avbryt</a>
 		</div>
 	</div>
 

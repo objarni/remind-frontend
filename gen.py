@@ -49,6 +49,7 @@ if __name__ == '__main__':
     for (title, fname, ngcontroller) in [
             (u'Re:Mind', 'index.body.html', 'indexController'),
             (u'Skapa konto', 'signup.body.html', 'signupController'),
+            (u'Logga in', 'login.body.html', 'loginController'),
             (u'Collect', 'collect.body.html', 'collectController'),
             (u'Process', 'process.body.html', 'processController')]:
         body = readfile(tpath(fname))

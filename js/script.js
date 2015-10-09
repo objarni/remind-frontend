@@ -159,15 +159,32 @@ var indexController = function($scope, $window) {
 };
 
 
-var signupController = function($scope, $window) {
+var signupController = function($scope, $window, $timeout) {
 
     var createAccount = function(email, password) {
     	console.log('createAccount');
     	$scope.message = "Konto skapat";
-    	surfTo($window, '/');
+    	$timeout(function(){
+	    	surfTo($window, 'login.html');
+        }, 2000);
     };
 
 	$scope.createAccount = createAccount;
+	$scope.message = '';
+};
+
+
+var loginController = function($scope, $window, $timeout) {
+
+    var login = function(email, password) {
+    	console.log('login');
+    	$scope.message = "Loggar in...";
+    	$timeout(function(){
+	    	surfTo($window, 'collect.html');
+        }, 2000);
+    };
+
+	$scope.login = login;
 	$scope.message = '';
 };
 
@@ -179,4 +196,5 @@ app.controller("processController", processController);
 app.controller("collectController", collectController);
 app.controller("indexController", indexController);
 app.controller("signupController", signupController);
+app.controller("loginController", loginController);
 

@@ -41,16 +41,23 @@
   ng-controller="{{ controller }}">
 
     <div class="row">
-      <div class="three columns">
+      <div class="four columns">
         <a href="/">
-          <img src="images/remind_splash.png">
+          <img style="display: float;" src="images/remind_splash.png">
         </a>
       </div>
-      <div class="six columns">
-        <h1 style="text-align: center">{{ title }}</h1>
+      <div class="four columns">
+        <h1>{{ title }}</h1>
       </div>
-      <div class="three columns">
-        <h4>login/out</h4>
+      <div class="two columns">
+          <a class='button u-full-width' id="login" href="login.html">
+            Logga&nbsp;in
+          </a>
+      </div>
+      <div class="two columns">
+          <a class='button u-full-width' id="signup" href="signup.html">
+            Skapa&nbsp;konto
+          </a>
       </div>
     </div>
 

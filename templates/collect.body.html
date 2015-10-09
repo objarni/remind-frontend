@@ -1,38 +1,38 @@
+<form ng-submit="collect(note, email)">
 
-<div ng-hide="saved">
+  <div ng-hide="saved">
 
-  <div class="row">
-    <div class="eight columns">
-      &nbsp;
+    <div class="row">
+      <div class="eight columns">
+        &nbsp;
+      </div>
+      <div class="four columns">
+        <em>{{email}} (<a id="logout" href="./">byt</a>)</em>
+      </div>
     </div>
-    <div class="four columns">
-      <em>{{email}} (<a id="logout" href="./">byt</a>)</em>
+
+    <div class="row">
+      <div class="twelve columns">
+          <p id="message">&nbsp;{{message}}</p>
+          <fieldset ng-disabled="isSaving">
+            <textarea
+            rows="30"
+            class="u-full-width"
+            placeholder="Kom ihåg vad...?"
+            id="note"
+            name="note"
+            ng-model="note"></textarea>
+            <input class="u-full-width button-primary"
+            ng-show="backendAwake"
+            value="Spara"
+            name="save"
+            type="submit">
+          </fieldset>
+      </div>
     </div>
   </div>
 
-  <div class="row">
-    <div class="twelve columns">
-      <form ng-submit="collect(note, email)">
-        <p id="message">&nbsp;{{message}}</p>
-        <fieldset ng-disabled="isSaving">
-          <textarea
-          rows="30"
-          class="u-full-width"
-          placeholder="Kom ihåg vad...?"
-          id="note"
-          name="note"
-          ng-model="note"></textarea>
-          <input class="u-full-width button-primary"
-          ng-show="backendAwake"
-          value="Spara"
-          name="save"
-          type="submit">
-        </fieldset>
-      </form>
-    </div>
-  </div>
-
-</div>
+</form>
 
 
 <script>

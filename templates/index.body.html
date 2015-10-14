@@ -1,44 +1,50 @@
 <form name="form" >
 
 	<div class="row">
-		<div class="twelve columns">
-			<label for="email">Epost</label>
-			<input
-			class="u-full-width"
-			name="email"
-			id="email"
-			type="email"
-			ng-model="email"
-			placeholder="test@mailbox.com"
-			required>
-		</div>
-		<p ng-hide="form.email.$valid">
-			Ange din epostadress
-		</p>
-		<p ng-show="form.email.$valid">
-			Klicka på en knapp för att fortsätta
-		</p>
-	</div>
 
-	<div class="row">
 		<div class="twelve columns">
-			<input
-			type="submit"
-			ng-enabled="form.email.$valid"
-			href="process.html"
-			class="six columns button-primary"
-			value="Ny"
-			name="collect"
-			ng-click="form.email.$valid && goCollect()">
-			<input
-			type="submit"
-			ng-enabled="form.email.$valid"
-			href="process.html"
-			class="six columns button-primary"
-			value="Visa"
-			name="process"
-			ng-click="form.email.$valid && goProcess()">
-		</div>
-	</div>
+			<h2>Varför Re:Mind?</h2>
 
-</form>
+			<p>
+				Kommer du på bra idéer när du är på språng? Kommer du på vad du behöver
+				där hemma när du är på jobbet och tvärtom? Ogillar du att hålla reda på en
+				massa saker i huvudet, och oroar dig för att tappa bort dem på olika
+				papperslappar som flyter runt i tillvaron?
+				<em>Då är Re:Mind för dig.</em>
+			</p>
+
+
+			<h2>Vad är Re:Mind?</h2>
+			<p>
+				Re:Mind är en mobilanpassad superenkel websajt för att skriva ned idéer via mobilen,
+				för att senare gå igenom dem i lugn och ro vid datorn. All information
+				sparas på ditt konto online, inget sparas lokalt på din enhet.
+			</p>
+			<p>
+				Uttrycket Re:Mind är en ordlek med den gamla epost-förkortningen "Re:"
+				som betyder "Reply" och "Mind" som står för huvudet. Alltså ett sätt
+				att ge en reply till ditt huvud, istället för att låsa in idén där.
+				Order "remind" syftar på att du på ett sätt skapar en påminnelse till
+				dig själv när du skriver något i Re:Mind, en påminnelse att göra något
+				med tanken du får när du är ute och går.
+			</p>
+
+			<h2>Hur funkar Re:Mind?</h2>
+			<p>
+				Du når Re:Mind lättast genom följande adress, som är en redirect till
+				exakt rätt sida på nätet:
+				<a href="http://j.mp/remind-app"><pre>j.mp/remind-app</pre></a>
+			</p>
+			<p>
+				Först <a href="signup.html">skapar du ett konto</a>. Sen lägger du ett
+				bokmärke på <a href="collect.html">sidan där du
+				skriver</a> anteckningar på din mobils skrivbord, så att du snabbt och på
+				språng kan få ur dig din tanke.
+			</p>
+			<p>
+				Slutligen loggar du in på <a href="login.html">Re:Mind</a> på din dator,
+				så att du bekvämt kan <a href="process.html">gå igenom</a> dina anteckningar.
+			</p>
+		</div>
+
+	</form>

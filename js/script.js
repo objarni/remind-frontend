@@ -26,6 +26,26 @@ var removeTopAPI = function($http, email) {
 	return $http.get(ENDPOINT_URL + 'remove_top/' + email);
 };
 
+var authenticateUserAPI = function($http, email, password) {
+	console.log('authenticateUserAPI');
+	return $http({
+			method: "POST",
+			url: ENDPOINT_URL + 'authenticate_user',
+			data: JSON.stringify({email: email, password: password}),
+			headers: { 'Content-Type': 'application/json' }
+	});
+}
+
+var addUserAPI = function($http, email, password) {
+	console.log('addUserAPI');
+	return $http({
+			method: "POST",
+			url: ENDPOINT_URL + 'add_user',
+			data: JSON.stringify({email: email, password: password}),
+			headers: { 'Content-Type': 'application/json' }
+	});
+}
+
 
 // Window object helpers
 
@@ -159,14 +179,33 @@ var indexController = function($scope, $window) {
 };
 
 
-var signupController = function($scope, $window, $timeout) {
+var signupController = function($scope, $http, $window, $timeout) {
+
+	var onError = function(response) {
+		$scope.message = 'Något gick fel. Försök igen.';
+		console.log('onError');
+		console.log(response);
+	};
+
+	var onSuccess = function(response) {
+		console.log('onSuccess');
+		var json = response.data;
+		console.log(json);
+		if (json.account_created) {
+			$scope.message = "Konto skapat.";
+	    	$timeout(function(){
+		    	surfTo($window, 'login.html');
+	        }, 3000);
+	    }
+	    else {
+	    	$scope.message = 'Kontot finns redan!';
+	    }
+	};
 
     var createAccount = function(email, password) {
     	console.log('createAccount');
-    	$scope.message = "Konto skapat";
-    	$timeout(function(){
-	    	surfTo($window, 'login.html');
-        }, 2000);
+    	addUserAPI($http, email, password)
+    	.then(onSuccess, onError);
     };
 
 	$scope.createAccount = createAccount;
@@ -174,14 +213,38 @@ var signupController = function($scope, $window, $timeout) {
 };
 
 
-var loginController = function($scope, $window, $timeout) {
+var loginController = function($scope, $http, $window, $timeout) {
+
+	var onError = function(response) {
+		$scope.message = 'Något gick fel. Försök igen.';
+		console.log('onError');
+		console.log(response);
+	};
+
+	var onSuccess = function(response) {
+		console.log('onSuccess');
+		console.log(response);
+		var json = response.data;
+		var logged_in = json.logged_in;
+		if (logged_in) {
+			$scope.message = 'Välkommen!';
+	    	$timeout(function(){
+		    	surfTo($window, 'collect.html');
+	        }, 1000);
+	    }
+	    else {
+	    	$scope.message = 'Fel epost eller lösenord. Försök igen.';
+	    	$timeout(function(){
+	    		$scope.message = '';
+	        }, 2000);
+	    }
+	};
 
     var login = function(email, password) {
     	console.log('login');
     	$scope.message = "Loggar in...";
-    	$timeout(function(){
-	    	surfTo($window, 'collect.html');
-        }, 2000);
+    	authenticateUserAPI($http, email, password)
+    	.then(onSuccess, onError);
     };
 
 	$scope.login = login;

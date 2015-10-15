@@ -6,12 +6,12 @@ LS = window.localStorage;
 
 // Backend API helpers
 
-var addAPI = function($http, note, email) {
+var addAPI = function($http, token, note) {
 	console.log('addAPI');
 	return $http({
 			method: "POST",
 			url: ENDPOINT_URL + 'add',
-			data: JSON.stringify({note: note, email: email}),
+			data: JSON.stringify({note: note, token: token}),
 			headers: { 'Content-Type': 'application/json' }
 	});
 }
@@ -96,15 +96,15 @@ var processController = function($scope, $http, $window) {
 
 var collectController = function($scope, $http, $timeout, $window) {
 
+	var token = LS['token'];
 	var email = emailFromWindow($window);
 
-	var collect = function(note, email) {
+	var collect = function(note) {
 		console.log('collect');
-		console.log('email ' + email);
 		$scope.isSaving = true;
 		$scope.message = 'Sparar...';
 		console.log($scope.isSaving);
-		addAPI($http, note, email)
+		addAPI($http, token, note)
 		.success(function(data) {
 			$scope.isSaving = false;
 			$scope.message = 'Sparat. :)';
@@ -140,10 +140,10 @@ var collectController = function($scope, $http, $timeout, $window) {
 	var onSuccessfullAdd = function(response) {
 		console.log('tickle/add OK');
 		console.log(response);
-		removeTopAPI($http, email).then(onSuccessfullRemoveTop, onError);
+		removeTopAPI($http, token).then(onSuccessfullRemoveTop, onError);
 	};
 
-	$scope.message = 'Kontaktar back-end...';
+	console.log("Tickling backend...");
 	addAPI($http, '', email).then(onSuccessfullAdd, onError);
 
 	$scope.collect = collect;
@@ -228,6 +228,7 @@ var loginController = function($scope, $http, $window, $timeout) {
 		var logged_in = json.logged_in;
 		if (logged_in) {
 			$scope.message = 'Välkommen!';
+			LS['token'] = json.token;
 	    	$timeout(function(){
 		    	surfTo($window, 'collect.html');
 	        }, 1000);
@@ -243,12 +244,30 @@ var loginController = function($scope, $http, $window, $timeout) {
     var login = function(email, password) {
     	console.log('login');
     	$scope.message = "Loggar in...";
+		LS['email'] = email;
     	authenticateUserAPI($http, email, password)
     	.then(onSuccess, onError);
     };
 
 	$scope.login = login;
 	$scope.message = '';
+};
+
+var loggedInController = function($scope, $window) {
+
+	var logout = function() {
+		LS.removeItem('token');
+		LS.removeItem('email');
+		surfTo($window, 'index.html');
+	}
+
+	var loggedIn = false;
+	if ( LS['token'] )
+		loggedIn = true;
+
+	$scope.loggedIn = loggedIn;
+	$scope.email = emailFromWindow($window);
+	$scope.logout = logout;
 };
 
 
@@ -260,4 +279,4 @@ app.controller("collectController", collectController);
 app.controller("indexController", indexController);
 app.controller("signupController", signupController);
 app.controller("loginController", loginController);
-
+app.controller("loggedInController", loggedInController);

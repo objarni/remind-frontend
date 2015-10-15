@@ -36,9 +36,7 @@
 </head>
 <body ng-app='remindApp'>
 
-  <div class="container"
-  style="margin-top: 5%"
-  ng-controller="{{ controller }}">
+  <div class="container" style="margin-top: 5%">
 
     <div class="row">
       <div class="four columns">
@@ -49,21 +47,58 @@
       <div class="four columns">
         <h1>{{ title }}</h1>
       </div>
-      <div class="two columns">
-          <a class='u-full-width' id="signup" href="signup.html">
-            Skapa&nbsp;konto
-          </a>
+
+      {% raw %}
+
+      <div ng-controller='loggedInController'>
+
+        <!-- Not logged in widgets -->
+        <div ng-hide="loggedIn">
+          <div class="two columns">
+            <a class='u-full-width' id="signup" href="signup.html">
+              Skapa&nbsp;konto
+            </a>
+          </div>
+          <div class="two columns">
+            <a class='u-full-width' id="login" href="login.html">
+              Logga&nbsp;in
+            </a>
+          </div>
+        </div>
+
+        <!-- Logged in widgets -->
+        <div ng-show="loggedIn">
+          <div class="one column">
+            <a class="button u-full-width" id="collect" href="collect.html">
+              Ny
+            </a>
+          </div>
+          <div class="one column">
+            <a class="button u-full-width" id="process" href="process.html">
+              Visa
+            </a>
+          </div>
+          <div class="two columns">
+            {{ email }}
+            <a class='u-full-width' ng-click="logout()" href="index.html" id="logout">
+              (logga&nbsp;ut)
+            </a>
+          </div>
+        </div>
+
       </div>
-      <div class="two columns">
-          <a class='u-full-width' id="login" href="login.html">
-            Logga&nbsp;in
-          </a>
-      </div>
+
+      {% endraw %}
+
     </div>
 
     <hr>
 
-    {{ body }}
+    <div ng-controller="{{ controller }}">
+
+      {{ body }}
+
+    </div>
 
   </div>
 

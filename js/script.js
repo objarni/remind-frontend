@@ -14,16 +14,36 @@ var addAPI = function($http, token, note) {
 			data: JSON.stringify({note: note, token: token}),
 			headers: { 'Content-Type': 'application/json' }
 	});
-}
-
-var listAPI = function($http, email) {
-	console.log('listAPI');
-	return $http.get(ENDPOINT_URL + 'list/' + email);
 };
 
-var removeTopAPI = function($http, email) {
+var listAPI = function($http, token) {
+	console.log('listAPI');
+	return $http({
+			method: "POST",
+			url: ENDPOINT_URL + 'list',
+			data: JSON.stringify({token: token}),
+			headers: { 'Content-Type': 'application/json' }
+	});
+};
+
+var removeTopAPI = function($http, token) {
 	console.log('removeTopAPI');
-	return $http.get(ENDPOINT_URL + 'remove_top/' + email);
+	return $http({
+			method: "POST",
+			url: ENDPOINT_URL + 'remove_top',
+			data: JSON.stringify({token: token}),
+			headers: { 'Content-Type': 'application/json' }
+	});
+};
+
+var getEmailAPI = function($http, token) {
+	console.log('getEmailAPI');
+	return $http({
+			method: "POST",
+			url: ENDPOINT_URL + 'get_email',
+			data: JSON.stringify({token: token}),
+			headers: { 'Content-Type': 'application/json' }
+	});
 };
 
 var authenticateUserAPI = function($http, email, password) {
@@ -34,7 +54,7 @@ var authenticateUserAPI = function($http, email, password) {
 			data: JSON.stringify({email: email, password: password}),
 			headers: { 'Content-Type': 'application/json' }
 	});
-}
+};
 
 var addUserAPI = function($http, email, password) {
 	console.log('addUserAPI');
@@ -44,27 +64,33 @@ var addUserAPI = function($http, email, password) {
 			data: JSON.stringify({email: email, password: password}),
 			headers: { 'Content-Type': 'application/json' }
 	});
-}
+};
 
 
-// Window object helpers
+// TODO: the POST-APIs could use a common function
 
-var emailFromWindow = function(window) {
-	return LS.email;
-}
+// General http response error handler
+
+var onError = function(response) {
+	console.log('Error response:');
+	console.log(response);
+};
+
+
+// Browser redirect via javascript
 
 var surfTo = function(window, url) {
     window.location.href = url;
-}
+};
 
 
 // AngularJS controllers
 
 var processController = function($scope, $http, $window) {
 
-	Mousetrap.bind('del', function() { $scope.removeTop(); });
+	var token = LS['token'];
 
-	var email = emailFromWindow($window);
+	Mousetrap.bind('del', function() { $scope.removeTop(); });
 
 	var success = function(response) {
 		console.log(response.data);
@@ -74,30 +100,22 @@ var processController = function($scope, $http, $window) {
 		$scope.booting = false;
 	}
 
-	var error = function(reason) {
-		console.log(reason);
-		$scope.message = 'fel';
-		$scope.booting = false;
-	}
-
 	var removeTop = function() {
 		console.log('removeTop');
-		removeTopAPI($http, email);
+		removeTopAPI($http, token);
 		$scope.notes = $scope.notes.slice(1);
 	};
 
-	listAPI($http, email).then(success, error);
+	listAPI($http, token).then(success, onError);
 
 	$scope.removeTop = removeTop;
 	$scope.notes = [];
 	$scope.booting = true;
-	$scope.email = email;
 };
 
 var collectController = function($scope, $http, $timeout, $window) {
 
 	var token = LS['token'];
-	var email = emailFromWindow($window);
 
 	var collect = function(note) {
 		console.log('collect');
@@ -118,74 +136,25 @@ var collectController = function($scope, $http, $timeout, $window) {
 		});
 	};
 
-	// Tickle backend when page is loaded
-	// to prevent slow save operation
-	// (Heroku dynos sleep after 30 minutes)
-	// Hack: add empty string, then remove it!
-	// Will not make any difference for users'
-	// real data as order is FIFO (stack).
-
-	var onError = function(response) {
-		console.log('onError');
-		console.log(response);
-		$scope.message = "Error: " + response.statusText;
-	};
-
-	var onSuccessfullRemoveTop = function(response) {
-		console.log('tickle/remove_top OK');
-		console.log(response);
-		$scope.backendAwake = true;
-	};
-
-	var onSuccessfullAdd = function(response) {
-		console.log('tickle/add OK');
-		console.log(response);
-		removeTopAPI($http, token).then(onSuccessfullRemoveTop, onError);
-	};
-
-	console.log("Tickling backend...");
-	addAPI($http, '', email).then(onSuccessfullAdd, onError);
 
 	$scope.collect = collect;
 	$scope.note = '';
 	$scope.isSaving = false;
 	$scope.message= '';
-	$scope.email = email;
-	$scope.backendAwake = false;
+	// TODO: backendAwake is never false. How communicate loggedInController
+	// state change to processController?
+	// It's really a state 'connecting/checking'
+	$scope.backendAwake = true;
 	$scope.saved = false;
 };
 
 var indexController = function($scope, $window) {
-
-	var email = emailFromWindow($window);
-
-    var goCollect = function() {
-    	console.log('goCollect');
-    	LS.email = $scope.email;
-    	surfTo($window, "collect.html");
-    };
-
-    var goProcess = function() {
-    	console.log('goProcess');
-    	LS.email = $scope.email;
-    	surfTo($window, "process.html");
-    };
-
-	$scope.goCollect = goCollect;
-	$scope.goProcess = goProcess;
-
-	if ( email )
-		$scope.email = email;
+	// TODO: might remove the controller altogether.
+	// loggedInController handles the collect/process/LS behaviour.
 };
 
 
 var signupController = function($scope, $http, $window, $timeout) {
-
-	var onError = function(response) {
-		$scope.message = 'Något gick fel. Försök igen.';
-		console.log('onError');
-		console.log(response);
-	};
 
 	var onSuccess = function(response) {
 		console.log('onSuccess');
@@ -214,12 +183,6 @@ var signupController = function($scope, $http, $window, $timeout) {
 
 
 var loginController = function($scope, $http, $window, $timeout) {
-
-	var onError = function(response) {
-		$scope.message = 'Något gick fel. Försök igen.';
-		console.log('onError');
-		console.log(response);
-	};
 
 	var onSuccess = function(response) {
 		console.log('onSuccess');
@@ -253,21 +216,37 @@ var loginController = function($scope, $http, $window, $timeout) {
 	$scope.message = '';
 };
 
-var loggedInController = function($scope, $window) {
+var loggedInController = function($scope, $window, $http) {
+
+	var token = LS['token'];
+	var loggedIn = false;
 
 	var logout = function() {
 		LS.removeItem('token');
-		LS.removeItem('email');
 		surfTo($window, 'index.html');
 	}
 
-	var loggedIn = false;
-	if ( LS['token'] )
-		loggedIn = true;
+	// Present email to user. If possible then we regard
+	// app as being logged in, otherwise conclude we're
+	// not logged in (and don't touch loggedIn model var),
+	// and perform 'proper' logout procedure.
+	var onSuccess = function(response) {
+		json = response.data;
+		if ( json.status == 'NOSESSION' ) {
+			logout();
+		}
+		else {
+			$scope.email = json.email;
+			$scope.loggedIn = true;
+		}
+	}
+	if ( token ) {
+		getEmailAPI($http, token)
+		.then(onSuccess, onError);
+	}
 
-	$scope.loggedIn = loggedIn;
-	$scope.email = emailFromWindow($window);
 	$scope.logout = logout;
+	$scope.loggedIn = loggedIn;
 };
 
 

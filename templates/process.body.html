@@ -11,22 +11,25 @@
 
   <div ng-show="notes.length > 0">
 
-    <div class="row">
-      <div class="twelve columns">
-        <h2 id="top" class="eight columns">
-          {{ notes[0] }}
-        </h2>
+  <div class="highlighted" style="margin-bottom: 30px">
+      <div class="row">
+        <div class="twelve columns">
+          <h2 id="top">
+            {{ notes[0] }}
+          </h2>
+        </div>
       </div>
-    </div>
 
-    <div class="row" style="margin-bottom: 30px">
-      <div class="twelve columns">
-        <input
-        class="u-full-width button-primary"
-        value="Släng"
-        title="Ta bort översta texten (Del)"
-        name="remove_top"
-        type="submit">
+      <div class="row">
+        <div class="twelve columns">
+          <input
+          class="u-full-width button-primary"
+          style="margin-bottom: 0px"
+          value="Släng"
+          title="Ta bort översta texten (Del)"
+          name="remove_top"
+          type="submit">
+        </div>
       </div>
     </div>
 

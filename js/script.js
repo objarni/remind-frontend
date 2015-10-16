@@ -164,7 +164,7 @@ var signupController = function($scope, $http, $window, $timeout) {
 			$scope.message = "Konto skapat.";
 	    	$timeout(function(){
 		    	surfTo($window, 'login.html');
-	        }, 3000);
+	        }, 1000);
 	    }
 	    else {
 	    	$scope.message = 'Kontot finns redan!';

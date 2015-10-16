@@ -2,3 +2,27 @@
 	margin: auto;
 	text-align: center;
 }
+
+.highlighted {
+	border: solid 1px #BBB;
+	border-radius: 4px;
+}
+
+/* Mobile */
+@media all and (max-width: 550px) {
+	#navdivider {
+		display: none;
+	}
+}
+
+/* Desktop */
+@media all and (min-width: 550px) {
+	#navdivider {
+		display: block;
+	}
+	.splash {
+		height: 38px;
+		width: 84px;
+	}
+}
+

@@ -47,11 +47,11 @@ if __name__ == '__main__':
     # html files
     g = Generator('template.html')
     for (title, fname, ngcontroller) in [
-            (u'Re:Mind', 'index.body.html', 'indexController'),
+            (u'Om Re:Mind', 'index.body.html', 'indexController'),
             (u'Skapa konto', 'signup.body.html', 'signupController'),
             (u'Logga in', 'login.body.html', 'loginController'),
-            (u'Collect', 'collect.body.html', 'collectController'),
-            (u'Process', 'process.body.html', 'processController')]:
+            (u'Tanke', 'collect.body.html', 'collectController'),
+            (u'Visa', 'process.body.html', 'processController')]:
         body = readfile(tpath(fname))
         html = g.generate(fname,
                           title=title,
